@@ -1,164 +1,241 @@
 /* ==========================================
-   ゲーム風サイバー・近未来デザインのベース
+   コンソール・ゲーム機風ベースデザイン設定
    ========================================== */
 body {
     margin: 0;
     padding: 0;
-    background-color: #0b0e14; /* ゲーム画面のような深いダークネイビー */
-    color: #ffffff;
-    font-family: 'Impact', 'Arial Black', sans-serif;
+    background-color: #06090e; /* 超ダークなコックピットカラー */
+    color: #e2e8f0;
+    font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
     min-height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
-    overflow-x: hidden;
-    position: relative;
-}
-
-/* バックグラウンドのうっすらとした近未来風グリッドエフェクト */
-.bg-effects {
-    position: absolute;
-    top: 0; left: 0; width: 100%; height: 100%;
-    background-image: 
-        linear-gradient(rgba(18, 24, 38, 0.5) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(18, 24, 38, 0.5) 1px, transparent 1px);
-    background-size: 40px 40px;
-    z-index: 1;
-}
-
-.game-container {
-    position: relative;
-    z-index: 2;
-    width: 100%;
-    max-width: 1100px;
-    padding: 40px 20px;
-    box-sizing: border-box;
-}
-
-/* ==========================================
-   タイトルヘッダー演出
-   ========================================== */
-.game-header {
-    text-align: center;
-    margin-bottom: 50px;
-}
-
-.game-title {
-    font-size: 3rem;
-    letter-spacing: 4px;
-    margin: 0;
-    background: linear-gradient(135deg, #ffffff, #8a99ad);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    text-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
-}
-
-.game-subtitle {
-    font-family: sans-serif;
-    font-size: 1rem;
-    color: #5f7594;
-    margin: 5px 0 0 0;
-}
-
-/* ==========================================
-   カードレイアウトと特殊エフェクト
-   ========================================== */
-.select-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 30px;
-}
-
-/* ゲームパネルのベース（茶色などの枠は一切なし） */
-.game-card {
-    position: relative;
-    background: transparent;
-    cursor: pointer;
-    border-radius: 20px;
-    transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-}
-
-/* イラストが綺麗に透過して乗るコア部分 */
-.card-inner {
-    position: relative;
-    z-index: 3;
-    border-radius: 20px;
     overflow: hidden;
-    background: rgba(255, 255, 255, 0.03); /* 未選択時はうっすら暗く */
-    transition: background 0.3s, filter 0.3s;
-    filter: brightness(0.7); /* 未選択時は少しトーンを落としてゲームの「選択待ち」感を演出 */
+    position: relative;
 }
 
-.card-inner img {
-    width: 100%;
-    height: auto;
-    display: block;
-    object-fit: contain;
-}
-
-/* ホバー（マウスを乗せた時）の立体的な浮き上がり */
-.game-card:hover {
-    transform: translateY(-8px) scale(1.03);
-}
-
-.game-card:hover .card-inner {
-    filter: brightness(1);
-    background: rgba(255, 255, 255, 0.07);
-}
-
-/* ==========================================
-   JavaScript連動：カード選択（ACTIVE）時のオーラ演出
-   ========================================== */
-/* 各個別カードのネオンの光り方定義 */
-.game-card[data-color="yellow"].active .card-glow { box-shadow: 0 0 40px #ffcc00, inset 0 0 20px #ffcc00; }
-.game-card[data-color="green"].active .card-glow  { box-shadow: 0 0 40px #00ff66, inset 0 0 20px #00ff66; }
-.game-card[data-color="blue"].active .card-glow   { box-shadow: 0 0 40px #00ccff, inset 0 0 20px #00ccff; }
-.game-card[data-color="orange"].active .card-glow { box-shadow: 0 0 40px #ff6600, inset 0 0 20px #ff6600; }
-.game-card[data-color="purple"].active .card-glow { box-shadow: 0 0 40px #cc00ff, inset 0 0 20px #cc00ff; }
-.game-card[data-color="red"].active .card-glow    { box-shadow: 0 0 40px #ff3333, inset 0 0 20px #ff3333; }
-
-/* 選択されたカード全体のバーストアップ効果 */
-.game-card.active {
-    transform: scale(1.05);
-    z-index: 10;
-}
-
-.game-card.active .card-inner {
-    filter: brightness(1.1); /* キャラクターを明るくスポットライト */
-    background: rgba(255, 255, 255, 0.12);
-}
-
-/* 背後で光るオーラ・エフェクトリング（枠線の代わりに光の円を使用） */
-.card-glow {
-    position: absolute;
-    top: -2px; left: -2px; right: -2px; bottom: -2px;
-    border-radius: 22px;
-    z-index: 2;
-    opacity: 0;
-    transition: opacity 0.3s ease;
+/* ゲーム背景（グリッド＆スキャンライン演出） */
+.game-bg {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    z-index: 1;
     pointer-events: none;
 }
-
-.game-card.active .card-glow {
-    opacity: 1;
-    animation: pulseGlow 2s infinite alternate;
+.grid-lines {
+    width: 100%; height: 100%;
+    background-image: linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+                      linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+    background-size: 50px 50px;
+}
+.scanlines {
+    position: absolute;
+    width: 100%; height: 100%;
+    background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+    background-size: 100% 4px, 6px 100%;
 }
 
-/* 光の輪が呼吸するように収縮するアニメーション */
-@keyframes pulseGlow {
-    0% { transform: scale(1); opacity: 0.8; }
-    100% { transform: scale(1.02); opacity: 1; }
+/* メインレイアウト */
+.main-interface {
+    position: relative;
+    z-index: 2;
+    width: 100vw;
+    height: 100vh;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 30px;
 }
 
 /* ==========================================
-   レスポンシブ（スマホ対応）
+   ヘッダー ＆ ルート選択タブボタン
    ========================================== */
-@media (max-width: 900px) {
-    .select-grid { grid-template-columns: repeat(2, 1fr); gap: 20px; }
-    .game-title { font-size: 2.2rem; }
+.ui-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+    padding-bottom: 15px;
+}
+.system-tag {
+    font-size: 0.75rem;
+    color: #4fc3f7;
+    letter-spacing: 2px;
+}
+.main-logo {
+    margin: 5px 0 0 0;
+    font-size: 1.8rem;
+    font-weight: 900;
+    letter-spacing: 4px;
+    color: #ffffff;
+    text-shadow: 0 0 10px rgba(255,255,255,0.3);
+}
+.route-selector {
+    display: flex;
+    gap: 15px;
+}
+.route-btn {
+    background: #121824;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    color: #8a99ad;
+    padding: 12px 24px;
+    font-size: 0.9rem;
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: all 0.2s ease;
+}
+.mode-num {
+    color: #4fc3f7;
+    margin-right: 5px;
+}
+.route-btn.active {
+    background: #00e5ff;
+    color: #06090e;
+    border-color: #00e5ff;
+    box-shadow: 0 0 15px rgba(0, 229, 255, 0.4);
+}
+.route-btn.active .mode-num {
+    color: #06090e;
 }
 
-@media (max-width: 600px) {
-    .select-grid { grid-template-columns: 1fr; gap: 20px; }
-    .game-title { font-size: 1.8rem; }
+/* ==========================================
+   ステージ：カード選択エリア（グリッド）
+   ========================================== */
+.panel-stage {
+    flex-grow: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px 0;
+}
+.panel-grid {
+    display: none;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 25px;
+    width: 100%;
+    max-width: 1000px;
+}
+.panel-grid.active {
+    display: grid;
+    animation: screenOn 0.3s cubic-bezier(0.1, 0.9, 0.2, 1) forwards;
+}
+
+/* カード単体（ゲームのスロット枠、不要な元の茶枠などは一切なし） */
+.panel-slot {
+    position: relative;
+    cursor: pointer;
+    border-radius: 12px;
+    transition: transform 0.2s ease;
+}
+.slot-frame {
+    border-radius: 12px;
+    overflow: hidden;
+    background: rgba(255, 255, 255, 0.02);
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    filter: brightness(0.5); /* 選択していない時は少し暗くゲームの待機画面風に */
+    transition: all 0.2s ease;
+}
+.slot-frame img {
+    width: 100%; height: auto; display: block; object-fit: contain;
+}
+
+/* ホバー＆セレクト時のアーケード筐体風ネオンエフェクト */
+.panel-slot:hover {
+    transform: translateY(-5px) scale(1.02);
+}
+.panel-slot:hover .slot-frame {
+    filter: brightness(0.8);
+    border-color: rgba(255, 255, 255, 0.4);
+}
+
+/* 決定・選択状態のネオン発光 */
+.panel-slot.selected {
+    transform: scale(1.05);
+}
+.panel-slot.selected .slot-frame {
+    filter: brightness(1.1);
+    background: rgba(255, 255, 255, 0.08);
+}
+
+/* 昼用（デフォルト）の発光 */
+.panel-slot.selected .slot-frame { box-shadow: 0 0 25px #00e5ff; border-color: #00e5ff; }
+/* 夜用個別（カラータイプ別発光） */
+.type-yellow.selected .slot-frame  { box-shadow: 0 0 25px #ffea00; border-color: #ffea00; }
+.type-magenta.selected .slot-frame { box-shadow: 0 0 25px #ff007f; border-color: #ff007f; }
+.type-blue.selected .slot-frame    { box-shadow: 0 0 25px #2979ff; border-color: #2979ff; }
+.type-orange.selected .slot-frame  { box-shadow: 0 0 25px #ff9100; border-color: #ff9100; }
+.type-purple.selected .slot-frame  { box-shadow: 0 0 25px #d500f9; border-color: #d500f9; }
+.type-red.selected .slot-frame     { box-shadow: 0 0 25px #ff1744; border-color: #ff1744; }
+
+/* ==========================================
+   下部：ステータス情報ウィンドウ
+   ========================================== */
+.status-window {
+    position: relative;
+    background: rgba(10, 15, 26, 0.85);
+    border: 1px solid rgba(0, 229, 255, 0.2);
+    border-radius: 8px;
+    padding: 20px;
+    box-sizing: border-box;
+}
+.window-border {
+    position: absolute;
+    top: 0; left: 0; width: 10px; height: 10px;
+    border-top: 3px solid #00e5ff; border-left: 3px solid #00e5ff;
+}
+.info-layout {
+    display: flex;
+    align-items: center;
+    gap: 25px;
+}
+.preview-box {
+    width: 100px;
+    height: 60px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px dashed rgba(255, 255, 255, 0.2);
+    border-radius: 4px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+.placeholder-text {
+    font-size: 0.75rem;
+    color: #4a5d78;
+    font-weight: bold;
+}
+.preview-box img {
+    height: 100%; width: auto; object-fit: contain;
+}
+.text-box {
+    flex-grow: 1;
+}
+.status-title {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #ffffff;
+    margin-bottom: 6px;
+    letter-spacing: 1px;
+}
+.status-desc {
+    font-size: 0.9rem;
+    color: #94a3b8;
+    line-height: 1.4;
+}
+
+/* モニター起動時のようなアニメーション */
+@keyframes screenOn {
+    0% { transform: scaleY(0.005) scaleX(0); opacity: 0; }
+    50% { transform: scaleY(0.005) scaleX(1); opacity: 1; }
+    100% { transform: scaleY(1) scaleX(1); opacity: 1; }
+}
+
+/* 横幅が狭い端末でのレイアウト（レスポンシブ） */
+@media (max-width: 850px) {
+    .panel-grid.active { grid-template-columns: repeat(2, 1fr); gap: 15px; }
+    .main-interface { padding: 15px; }
+    .main-logo { font-size: 1.4rem; }
+    .route-btn { padding: 10px 16px; font-size: 0.8rem; }
 }
