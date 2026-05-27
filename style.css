@@ -1,5 +1,5 @@
 /* ==========================================
-   ミニマル ＆ シンプルデザイン（全行）
+   絶対に真っ白にならないシンプルデザイン
    ========================================== */
 body {
     margin: 0;
@@ -23,7 +23,6 @@ body {
     box-sizing: border-box;
 }
 
-/* 画面フラッシュ（白ベースなので黒い影がうっすら走る演出） */
 .画面フラッシュ {
     position: absolute;
     top: 0; left: 0; width: 100%; height: 100%;
@@ -34,29 +33,40 @@ body {
     z-index: 10;
 }
 
-/* 重要：初期状態は「display: none;」で非表示。
-   これが真っ白の原因になるため、下の「.active」が必須です。
+/* 【重要修正】
+   真っ白バグを防ぐため、display: none; は廃止しました。
+   通常時は非表示にし、active クラスがついたものだけを綺麗に表示させます。
 */
 .シーン {
-    display: none;
+    opacity: 0;
+    visibility: hidden;
+    position: absolute;
+    top: 0;
+    left: 0;
     width: 100%;
     height: 100%;
+    display: flex;
     flex-direction: column;
     justify-content: space-between;
+    padding: 25px;
+    box-sizing: border-box;
+    transition: opacity 0.2s ease;
 }
 
-/* JavaScriptでこのクラスがつくと画面が表示されます */
+/* JavaScriptと連動して最前面に表示される設定 */
 .シーン.active {
-    display: flex;
+    opacity: 1;
+    visibility: visible;
+    position: relative;
 }
 
 /* ==========================================
    1. タイトル画面
    ========================================== */
 #タイトル画面 {
-    justify-content: center;
-    align-items: center;
     text-align: center;
+    align-items: center;
+    justify-content: center;
 }
 .メインタイトル {
     font-size: 2.4rem;
@@ -83,6 +93,7 @@ body {
 .ステータスエリア {
     border-bottom: 1px solid #eeeeee;
     padding-bottom: 12px;
+    width: 100%;
 }
 .状態テキスト {
     font-size: 0.9rem;
@@ -95,16 +106,16 @@ body {
     font-size: 0.85rem;
 }
 
-/* メイン画面レイアウト分割 */
 .メインコンテンツ {
     display: flex;
     gap: 35px;
     flex-grow: 1;
     padding: 20px 0;
     height: 65%;
+    width: 100%;
 }
 
-/* 左側：カード選択エリア */
+/* 左側：カードエリア */
 .カードエリア {
     width: 55%;
     display: flex;
@@ -127,14 +138,17 @@ body {
     opacity: 0.35;
 }
 .カード img {
-    width: 100%; height: auto; display: block; object-fit: contain;
+    width: 100%;
+    height: auto;
+    display: block;
+    object-fit: contain;
 }
 .カード:hover { opacity: 0.7; }
 .カード.selected {
     opacity: 1;
 }
 
-/* 右側：自由記述 ＆ 自由描画エリア */
+/* 右側：自由記述エリア */
 .自由記述エリア {
     width: 45%;
     border-left: 1px solid #eeeeee;
@@ -167,7 +181,7 @@ body {
     border-color: #111111;
 }
 
-/* 落書きキャンバス設定 */
+/* キャンバス */
 .キャンバス枠 {
     margin-top: 15px;
     display: flex;
@@ -202,6 +216,7 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    width: 100%;
 }
 .メッセージテキスト {
     width: 65%;
@@ -232,11 +247,12 @@ body {
 }
 
 /* ==========================================
-   3. 最終リザルト・総括画面
-   ========================================== */
+   3. 最終結果画面
+   ========================================= */
 #結果画面 {
-    justify-content: flex-start;
+    text-align: center;
     align-items: center;
+    justify-content: flex-start;
     overflow-y: auto;
 }
 .結果タイトル {
@@ -298,7 +314,7 @@ body {
     color: #ffffff;
 }
 
-/* スマホ・タブレット用レイアウト調整 */
+/* スマホ対応 */
 @media (max-width: 800px) {
     .メインコンテンツ { flex-direction: column; gap: 20px; overflow-y: auto; }
     .カードエリア, .自由記述エリア { width: 100%; }
