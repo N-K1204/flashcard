@@ -109,7 +109,7 @@
                 </div>
             </div>
 
-            <div class="リトライボタン" onclick="ゲームリセット()">新しい一日を始める</div>
+            <div class="リトライボタン" onclick="ゲームリreset()">新しい一日を始める</div>
         </div>
 
     </div>
@@ -148,7 +148,6 @@
             document.getElementById('msg-title').innerText = タイトル;
             document.getElementById('msg-desc').innerText = 説明;
 
-            // 一時保存オブジェクトの生成（エラー回避のため安全に作成）
             一時選択 = {
                 タイトル: タイトル,
                 説明: 説明,
@@ -161,7 +160,6 @@
         function 次の章へ() {
             if (!一時選択) return;
 
-            // 履歴にデータを追加
             選択履歴.push(一時選択);
             
             const 入力テキスト = document.getElementById('free-text').value.trim();
@@ -174,7 +172,6 @@
             document.getElementById('free-text').value = '';
             キャンバスクリア();
 
-            // 安全な文字列比較でルート自動分岐
             const 選択タイトル = 一時選択.タイトル || '';
             if (現在のルート === 'day' && 現在の章 >= 2) {
                 if (選択タイトル.indexOf('違和感') !== -1 || 選択タイトル.indexOf('影') !== -1 || 選択タイトル.indexOf('帳') !== -1) {
@@ -214,7 +211,6 @@
             テキスト枠.innerHTML = 記述履歴.map(t => '<p class="まとめ行">' + t + '</p>').join('');
         }
 
-        // 自由描画（キャンバス）システム
         let キャンバス, コンテキスト, 描画中 = false;
 
         function キャンバス初期化() {
@@ -226,13 +222,11 @@
             コンテキスト.lineWidth = 2;
             コンテキスト.lineCap = 'round';
 
-            // マウスイベント
             キャンバス.addEventListener('mousedown', function(e) { 描画開始(e); });
             キャンバス.addEventListener('mousemove', function(e) { 描画中動作(e); });
             キャンバス.addEventListener('mouseup', function() { 描画終了(); });
             キャンバス.addEventListener('mouseleave', function() { 描画終了(); });
 
-            // タッチイベント（引数 e を正しく内部関数へ中継するように修正）
             キャンバス.addEventListener('touchstart', function(e) {
                 e.preventDefault();
                 if (e.touches && e.touches[0]) { 描画開始(e.touches[0]); }
