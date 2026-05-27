@@ -100,14 +100,12 @@
             <div class="一括表示エリア">
                 <div class="総括ブロック">
                     <h3>【あなたが選んだ軌跡】</h3>
-                    <div id="summary-choices" class="まとめリスト">
-                        </div>
+                    <div id="summary-choices" class="まとめリスト"></div>
                 </div>
 
                 <div class="総括ブロック">
                     <h3>【あなたが吐き出したココロの言葉】</h3>
-                    <div id="summary-text" class="まとめテキスト">
-                        </div>
+                    <div id="summary-text" class="まとめテキスト"></div>
                 </div>
             </div>
 
@@ -134,7 +132,7 @@
             6: "最終章：ココロの結末"
         };
 
-        // 一時保存用（「次へ」を押したタイミングで確定させるため）
+        // 一時保存用
         let 一時選択 = null;
 
         function ゲーム開始() {
@@ -150,35 +148,40 @@
             document.getElementById('msg-title').innerText = タイトル;
             document.getElementById('msg-desc').innerText = 説明;
 
-            // 一時保存
-            一時選択 = { タイトル: タイトル, 説明: 説明, 章: 章の名前[現在の章] };
+            // 一時保存オブジェクトの生成（エラー回避のため安全に作成）
+            一時選択 = {
+                タイトル: タイトル,
+                説明: 説明,
+                章: 章の名前[現在の章]
+            };
             
-            // 「次へ」ボタンを活性化
             document.getElementById('next-btn').disabled = false;
         }
 
         function 次の章へ() {
             if (!一時選択) return;
 
-            // 履歴に本当のデータを追加
+            // 履歴にデータを追加
             選択履歴.push(一時選択);
             
             const 入力テキスト = document.getElementById('free-text').value.trim();
             if (入力テキスト) {
-                記述履歴.push(`【${章の名前[現在の章]}】: ${入力テキスト}`);
+                記述履歴.push("【" + 章の名前[現在の章] + "】: " + 入力テキスト);
             } else {
-                記述履歴.push(`【${章の名前[現在の章]}】: （言葉にできない想い、または自由描画を記録）`);
+                記述履歴.push("【" + 章の名前[現在の章] + "】: （言葉にできない想い、または自由描画を記録）");
             }
 
-            // 入力欄をクリアして次の章に備える
             document.getElementById('free-text').value = '';
             キャンバスクリア();
 
-            // 自動ルート分岐（第3章以降、特定のネガティブな状態なら夜の不調ルートへ自動で切り替える）
-            if (現在のルート === 'day' && 現在の章 >= 2 && (一時選択.タイトル.includes('違和感') || 一時選択.タイトル.includes('影') || 一時選択.タイトル.includes('帳'))) {
-                現在のルート = 'night';
-                document.getElementById('昼のカード').classList.remove('active');
-                document.getElementById('夜のカード').classList.add('active');
+            // 安全な文字列比較でルート自動分岐
+            const 選択タイトル = 一時選択.タイトル || '';
+            if (現在のルート === 'day' && 現在の章 >= 2) {
+                if (選択タイトル.indexOf('違和感') !== -1 || 選択タイトル.indexOf('影') !== -1 || 選択タイトル.indexOf('帳') !== -1) {
+                    現在のルート = 'night';
+                    document.getElementById('昼のカード').classList.remove('active');
+                    document.getElementById('夜のカード').classList.add('active');
+                }
             }
 
             現在の章++;
@@ -191,7 +194,6 @@
                 document.getElementById('msg-title').innerText = 'カードを1枚選んでください';
                 document.getElementById('msg-desc').innerText = '次の時間帯のあなたの状態、または感情を選択してください。';
             } else {
-                // すべての章が終わったら一括表示画面へ
                 一括表示生成();
             }
         }
@@ -200,18 +202,16 @@
             document.getElementById('プレイ画面').classList.remove('active');
             document.getElementById('結果画面').classList.add('active');
 
-            // 選択肢のまとめ出力
             const 選択枠 = document.getElementById('summary-choices');
-            選択枠.innerHTML = 選択履歴.map(h => `
-                <div class="まとめアイテム">
-                    <strong>${h.章}</strong><br>
-                    <span>選択：${h.タイトル}</span>
-                </div>
-            `).join('');
+            選択枠.innerHTML = 選択履歴.map(h => 
+                '<div class="まとめアイテム">' +
+                    '<strong>' + h.章 + '</strong><br>' +
+                    '<span>選択：' + h.タイトル + '</span>' +
+                '</div>'
+            ).join('');
 
-            // 吐き出した言葉のまとめ出力
             const テキスト枠 = document.getElementById('summary-text');
-            テキスト枠.innerHTML = 記述履歴.map(t => `<p class="まとめ行">${t}</p>`).join('');
+            テキスト枠.innerHTML = 記述履歴.map(t => '<p class="まとめ行">' + t + '</p>').join('');
         }
 
         // 自由描画（キャンバス）システム
@@ -219,21 +219,29 @@
 
         function キャンバス初期化() {
             キャンバス = document.getElementById('paint-canvas');
+            if (!キャンバス) return;
+            
             コンテキスト = キャンバス.getContext('2d');
             コンテキスト.strokeStyle = '#111111';
             コンテキスト.lineWidth = 2;
             コンテキスト.lineCap = 'round';
 
             // マウスイベント
-            キャンバス.addEventListener('mousedown', 描画開始);
-            キャンバス.addEventListener('mousemove', 描画中動作);
-            キャンバス.addEventListener('mouseup', 描画終了);
-            キャンバス.addEventListener('mouseleave', 描画終了);
+            キャンバス.addEventListener('mousedown', function(e) { 描画開始(e); });
+            キャンバス.addEventListener('mousemove', function(e) { 描画中動作(e); });
+            キャンバス.addEventListener('mouseup', function() { 描画終了(); });
+            キャンバス.addEventListener('mouseleave', function() { 描画終了(); });
 
-            // タッチイベント（スマホ対応）
-            キャンバス.addEventListener('touchstart', (e) => { e.preventDefault(); 描画開始(e.touches[0]); });
-            キャンバス.addEventListener('touchmove', (e) => { e.preventDefault(); 描画中動作(e.touches[0]); });
-            キャンバス.addEventListener('touchend', 描画終了);
+            // タッチイベント（引数 e を正しく内部関数へ中継するように修正）
+            キャンバス.addEventListener('touchstart', function(e) {
+                e.preventDefault();
+                if (e.touches && e.touches[0]) { 描画開始(e.touches[0]); }
+            });
+            キャンバス.addEventListener('touchmove', function(e) {
+                e.preventDefault();
+                if (e.touches && e.touches[0]) { 描画中動作(e.touches[0]); }
+            });
+            キャンバス.addEventListener('touchend', function() { 描画終了(); });
         }
 
         function 描画開始(e) {
@@ -250,7 +258,9 @@
             コンテキスト.stroke();
         }
 
-        function 描画終了() { 描画中 = false; }
+        function 描画終了() { 
+            描画中 = false; 
+        }
 
         function キャンバス座標取得(e) {
             const 矩形 = キャンバス.getBoundingClientRect();
@@ -261,7 +271,9 @@
         }
 
         function キャンバスクリア() {
-            コンテキスト.clearRect(0, 0, キャンバス.width, キャンバス.height);
+            if (コンテキスト && キャンバス) {
+                コンテキスト.clearRect(0, 0, キャンバス.width, キャンバス.height);
+            }
         }
 
         function ゲームリセット() {
