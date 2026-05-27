@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>STORY SELECTOR - SPECIAL EDITION</title>
+    <title>STORY SELECTOR - COMPLETE GAME EDITION</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -34,44 +34,68 @@
         <main class="panel-stage">
             
             <div id="grid-day" class="panel-grid active">
-                <div class="panel-slot" onclick="panelSelect(this, 'image0', 'DAY ROUTE: 01', 'いつもの朝、ここから全ての物語がスタートする。')">
-                    <div class="slot-frame"><img src="image0.png" alt="DAY 01"></div>
+                <div class="panel-slot type-day" onclick="panelSelect(this, 'image0', 'DAY ROUTE: 01', 'ここから全ての物語がスタートする。まだ体調は万全、エネルギーに満ち溢れている。')">
+                    <div class="slot-frame">
+                        <img src="image0.png" alt="DAY 01">
+                    </div>
                 </div>
-                <div class="panel-slot" onclick="panelSelect(this, 'image1', 'DAY ROUTE: 02', '少しずつ街が動き出す。順調な滑り出し。')">
-                    <div class="slot-frame"><img src="image1.png" alt="DAY 02"></div>
+                <div class="panel-slot type-day" onclick="panelSelect(this, 'image1', 'DAY ROUTE: 02', '少しずつ周囲の状況が動き出す。順調にタスクを消化している状態。')">
+                    <div class="slot-frame">
+                        <img src="image1.png" alt="DAY 02">
+                    </div>
                 </div>
-                <div class="panel-slot" onclick="panelSelect(this, 'image2', 'DAY ROUTE: 03', '順調に進んでいるように見えたが、小さな変化が…？')">
-                    <div class="slot-frame"><img src="image2.png" alt="DAY 03"></div>
+                <div class="panel-slot type-day" onclick="panelSelect(this, 'image2', 'DAY ROUTE: 03', '中盤戦に突入。イベントが発生し、物語がさらに深みを増していく。')">
+                    <div class="slot-frame">
+                        <img src="image2.png" alt="DAY 03">
+                    </div>
                 </div>
-                <div class="panel-slot" onclick="panelSelect(this, 'image3', 'DAY ROUTE: 04', '折り返し地点。まだエネルギーは十分残っている。')">
-                    <div class="slot-frame"><img src="image3.png" alt="DAY 04"></div>
+                <div class="panel-slot type-day" onclick="panelSelect(this, 'image3', 'DAY ROUTE: 04', '折り返し地点を通過。ここまでの選択が後半の展開に影響を与える。')">
+                    <div class="slot-frame">
+                        <img src="image3.png" alt="DAY 04">
+                    </div>
                 </div>
-                <div class="panel-slot" onclick="panelSelect(this, 'image4', 'DAY ROUTE: 05', '夕方の兆し。終わりが見えてきた時間帯。')">
-                    <div class="slot-frame"><img src="image4.png" alt="DAY 05"></div>
+                <div class="panel-slot type-day" onclick="panelSelect(this, 'image4', 'DAY ROUTE: 05', '終盤の兆し。これまでの行動の成果が形になり始める時間帯。')">
+                    <div class="slot-frame">
+                        <img src="image4.png" alt="DAY 05">
+                    </div>
                 </div>
-                <div class="panel-slot" onclick="panelSelect(this, 'image5', 'DAY ROUTE: 06', 'DAY SIDE ラストステージ。無事に次のステップへ移行。')">
-                    <div class="slot-frame"><img src="image5.png" alt="DAY 06"></div>
+                <div class="panel-slot type-day" onclick="panelSelect(this, 'image5', 'DAY ROUTE: 06', 'DAY SIDE 最終章。無事にミッションをクリアし、次のステップへ。')">
+                    <div class="slot-frame">
+                        <img src="image5.png" alt="DAY 06">
+                    </div>
                 </div>
             </div>
 
             <div id="grid-night" class="panel-grid">
-                <div class="panel-slot type-yellow" onclick="panelSelect(this, 'image6', 'CONDITION: トイレにいきたい', '危険度：★☆☆ / 最優先で処理すべき緊急の生理欲求が発生中。')">
-                    <div class="slot-frame"><img src="image6.png" alt="トイレにいきたい"></div>
+                <div class="panel-slot type-yellow" onclick="panelSelect(this, 'image6', 'CONDITION: トイレにいきたい', '緊急ステータス：★☆☆ / 最優先で処理すべき生理欲求が発生。ルート確保を急げ。')">
+                    <div class="slot-frame">
+                        <img src="image6.png" alt="トイレにいきたい">
+                    </div>
                 </div>
-                <div class="panel-slot type-magenta" onclick="panelSelect(this, 'image7', 'CONDITION: おなかいたい', '危険度：★★★ / 体力の継続的な消耗を確認。ただちに休息が必要。')">
-                    <div class="slot-frame"><img src="image7.png" alt="おなかいたい"></div>
+                <div class="panel-slot type-magenta" onclick="panelSelect(this, 'image7', 'CONDITION: おなかいたい', '緊急ステータス：★★★ / 持続的なダメージデバフを検知。ただちに温かい環境で休息せよ。')">
+                    <div class="slot-frame">
+                        <img src="image7.png" alt="おなかいたい">
+                    </div>
                 </div>
-                <div class="panel-slot type-blue" onclick="panelSelect(this, 'image8', 'CONDITION: あたまいたい', '危険度：★★☆ / 思考力低下のデバフが発生。静かな環境を求めている。')">
-                    <div class="slot-frame"><img src="image8.png" alt="あたまいたい"></div>
+                <div class="panel-slot type-blue" onclick="panelSelect(this, 'image8', 'CONDITION: あたまいたい', '緊急ステータス：★★☆ / 思考プロセスの処理速度が低下中。画面の輝度を下げて静養を推奨。')">
+                    <div class="slot-frame">
+                        <img src="image8.png" alt="あたまいたい">
+                    </div>
                 </div>
-                <div class="panel-slot type-orange" onclick="panelSelect(this, 'image9', 'CONDITION: おなかすいた', '危険度：★☆☆ / 燃料切れ。エネルギーの補給（ご飯）を強く求めている状態。')">
-                    <div class="slot-frame"><img src="image9.png" alt="おなかすいた"></div>
+                <div class="panel-slot type-orange" onclick="panelSelect(this, 'image9', 'CONDITION: おなかすいた', '緊急ステータス：★☆☆ / 内部燃料が枯渇。カロリーおよびハイドレーションの補給が必要。')">
+                    <div class="slot-frame">
+                        <img src="image9.png" alt="おなかすいた">
+                    </div>
                 </div>
-                <div class="panel-slot type-purple" onclick="panelSelect(this, 'image10', 'CONDITION: ねれない', '危険度：★★☆ / 精神疲労が蓄積しているにもかかわらず、リブートに失敗中。')">
-                    <div class="slot-frame"><img src="image10.png" alt="ねれない"></div>
+                <div class="panel-slot type-purple" onclick="panelSelect(this, 'image10', 'CONDITION: ねれない', '緊急ステータス：★★☆ / 精神ログのクローズに失敗。リラックスサウンドの導入を検討。')">
+                    <div class="slot-frame">
+                        <img src="image10.png" alt="ねれない">
+                    </div>
                 </div>
-                <div class="panel-slot type-red" onclick="panelSelect(this, 'CONDITION: おしごといやだ', '危険度：MAX / メンタルゲージが限界。今日のミッションの中止を提案します。')">
-                    <div class="slot-frame"><img src="image11.png" alt="おしごといやだ"></div>
+                <div class="panel-slot type-red" onclick="panelSelect(this, 'CONDITION: おしごといやだ', '緊急ステータス：LIMIT OVER / メンタル耐久値がゼロ。本日の全ミッションを強制終了します。')">
+                    <div class="slot-frame">
+                        <img src="image11.png" alt="おしごといやだ">
+                    </div>
                 </div>
             </div>
 
@@ -86,7 +110,7 @@
                 </div>
                 <div class="text-box">
                     <div id="status-title" class="status-title">SELECT A CARD</div>
-                    <div id="status-desc" class="status-desc">カードを選択すると、ここに詳細ステータスがロードされます。</div>
+                    <div id="status-desc" class="status-desc">カードを選択すると、ここに詳細なゲームステータスとフレーバーテキストがロードされます。</div>
                 </div>
             </div>
         </footer>
@@ -94,11 +118,13 @@
     </div>
 
     <script>
-        // 昼・夜ルート切り替え
+        // 昼ルートと夜ルートを完全に切り替える関数
         function changeRoute(route) {
+            // 全てのルートボタンとグリッドからアクティブクラスを削除
             document.querySelectorAll('.route-btn').forEach(btn => btn.classList.remove('active'));
             document.querySelectorAll('.panel-grid').forEach(grid => grid.classList.remove('active'));
             
+            // 選択されたルートをアクティブにする
             if(route === 'day') {
                 document.getElementById('btn-day').classList.add('active');
                 document.getElementById('grid-day').classList.add('active');
@@ -106,35 +132,39 @@
                 document.getElementById('btn-night').classList.add('active');
                 document.getElementById('grid-night').classList.add('active');
             }
-            // 切り替え時に下部ウィンドウをリセット
+            // ルート変更時に下部の選択情報を初期状態にリセット
             resetWindow();
         }
 
-        // カード選択時の処理
+        // カードスロットが選択されたときの処理関数
         function panelSelect(element, imgName, title, desc) {
-            // 他の選択を解除
+            // 同じグリッド内の他のカードから選択状態（selected）を解除
             document.querySelectorAll('.panel-slot').forEach(slot => slot.classList.remove('selected'));
-            // 選択エフェクト付与
+            
+            // クリックされたカードに選択状態を付与
             element.classList.add('selected');
 
-            // 下部ステータスウィンドウの書き換え
+            // 下部ウィンドウのパーツを取得
             const previewImg = document.getElementById('preview-img');
             const placeholder = document.getElementById('preview-img-placeholder');
             
+            // プレビュー画像の切り替え
             placeholder.style.display = 'none';
             previewImg.style.display = 'block';
-            previewImg.src = imgName + '.png'; // 拡張子を補完
+            previewImg.src = imgName + '.png';
 
+            // テキスト情報の書き換え
             document.getElementById('status-title').innerText = title;
             document.getElementById('status-desc').innerText = desc;
         }
 
+        // ウィンドウ表示のリセット関数
         function resetWindow() {
             document.querySelectorAll('.panel-slot').forEach(slot => slot.classList.remove('selected'));
             document.getElementById('preview-img').style.display = 'none';
             document.getElementById('preview-img-placeholder').style.display = 'flex';
             document.getElementById('status-title').innerText = 'SELECT A CARD';
-            document.getElementById('status-desc').innerText = 'カードを選択すると、ここに詳細ステータスがロードされます。';
+            document.getElementById('status-desc').innerText = 'カードを選択すると、ここに詳細なゲームステータスとフレーバーテキストがロードされます。';
         }
     </script>
 
